@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'image_screen.dart';
-import 'package:location/location.dart';
-
 
 class FormScreen extends StatefulWidget {
   static const String id = "form_screen";
@@ -10,8 +8,6 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  var location = new Location();
-  Map<String, double> userLocation;
   @override
   Widget build(BuildContext context) {
     final halfMediaWidth = MediaQuery.of(context).size.width / 3.0;
@@ -31,27 +27,6 @@ class _FormScreenState extends State<FormScreen> {
       ),
       body: new Column(
         children: <Widget>[
-          userLocation == null
-              ? CircularProgressIndicator()
-              : Text("Location:" +
-              userLocation["latitude"].toString() +
-              " " +
-              userLocation["longitude"].toString()),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RaisedButton(
-              onPressed: () {
-                _getLocation().then((value) {
-                  setState(() {
-                    userLocation = value;
-                  });
-                });
-              },
-              color: Colors.blue,
-              child: Text("Get Location", style: TextStyle(color: Colors.white),),
-            ),
-          ),
-
           new ListTile(
             leading: const Icon(Icons.person),
             title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,13 +165,5 @@ class _FormScreenState extends State<FormScreen> {
       ),
     );
   }
-  Future<Map<String, double>> _getLocation() async {
-    var currentLocation = <String, double>{};
-    try {
-      currentLocation = await location.getLocation();
-    } catch (e) {
-      currentLocation = null;
-    }
-    return currentLocation;
-  }
+
 }
